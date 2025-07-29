@@ -1,0 +1,15 @@
+[Unit]
+Description=RDP Traffic Forwarder
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/rdp_forwarder
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

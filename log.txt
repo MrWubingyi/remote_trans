@@ -1,0 +1,73 @@
+`Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:00] === RDP Forwarder Statistics ===Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:00] Uptime: 363 seconds
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:00] Total connections: 3Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:00] Active connections: 1
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:00] Total bytes sent: 143453
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:00] Total bytes received: 2776069
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: === RDP Forwarder Statistics ===
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:00] Average throughput: 7.85 KB/s
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Uptime: 363 seconds
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Total connections: 3
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Active connections: 1
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Total bytes sent: 143453
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Total bytes received: 2776069
+Jul 30 09:35:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Average throughput: 7.85 KB/s
+Jul 30 09:35:07 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:07] Target 10.145.165.217:3389 is unhealthy
+Jul 30 09:35:07 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:07] Rejecting connection - target is unhealthy
+Jul 30 09:35:07 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:07] recv error: Connection reset by peer
+Jul 30 09:35:07 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:07] Cleaning up connection 0 (sent: 145814 bytes, received: 2776069 bytes)
+Jul 30 09:35:07 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Target 10.145.165.217:3389 is unhealthy
+Jul 30 09:35:07 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Rejecting connection - target is unhealthy
+Jul 30 09:35:07 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: recv error: Connection reset by peer
+Jul 30 09:35:07 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Cleaning up connection 0 (sent: 145814 bytes, received: 2776069 bytes)
+^[[B^[[B^[[B^[[B^[[B^[[BJul 30 09:35:10 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:10] Rejecting connection - target is unhealthy
+Jul 30 09:35:10 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Rejecting connection - target is unhealthy
+Jul 30 09:35:14 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:14] Rejecting connection - target is unhealthy
+Jul 30 09:35:14 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Rejecting connection - target is unhealthy
+Jul 30 09:35:14 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:14] Target 10.145.165.217:3389 is now healthy
+Jul 30 09:35:14 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Target 10.145.165.217:3389 is now healthy
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] Using traditional TCP transport
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] New connection 0 established (tcp): 58.34.185.235:2063 -> 10.145.165.217:3389
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Using traditional TCP transport
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: New connection 0 established (tcp): 58.34.185.235:2063 -> 10.145.165.217:3389
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] recv error: Connection reset by peer
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] Cleaning up connection 0 (sent: 43 bytes, received: 19 bytes)
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: recv error: Connection reset by peer
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Cleaning up connection 0 (sent: 43 bytes, received: 19 bytes)
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] Using traditional TCP transport
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] New connection 0 established (tcp): 58.34.185.235:2064 -> 10.145.165.217:3389
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Using traditional TCP transport
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: New connection 0 established (tcp): 58.34.185.235:2064 -> 10.145.165.217:3389
+。Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] recv error: Connection reset by peer
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] Cleaning up connection 0 (sent: 43 bytes, received: 19 bytes)
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: recv error: Connection reset by peer      
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Cleaning up connection 0 (sent: 43 bytes, received: 19 bytes)   
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] Using traditional TCP transport
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:35:16] New connection 0 established (tcp): 58.34.185.235:2064 -> 10.145.165.217:3389
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Using traditional TCP transport                                                                                                                                     
+Jul 30 09:35:16 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: New connection 0 established (tcp): 58.34.185.235:2064 -> 10.145.165.217:3389
+^[[A^[[A^[[A^[[A^[[A^[[B^[[B^[[B^[[B^[[BJul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:00] === RDP Forwarder Statistics ===
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:00] Uptime: 423 seconds                                                                                                                           
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:00] Total connections: 5
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: === RDP Forwarder Statistics ===                                                                                                                                    
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:00] Active connections: 1
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:00] Total bytes sent: 102784                                                                                                                      
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:00] Total bytes received: 697833 
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:00] Average throughput: 1.85 KB/s             
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Uptime: 423 seconds                       
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Total connections: 5  
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Active connections: 1                          
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Total bytes sent: 102784                                                                                                                                            
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Total bytes received: 697833   
+Jul 30 09:36:00 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Average throughput: 1.85 KB/s                                                                                                                                       
+Jul 30 09:36:09 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:09] Target 10.145.165.217:3389 is unhealthy
+Jul 30 09:36:09 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Target 10.145.165.217:3389 is unhealthy
+Jul 30 09:36:20 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:20] Rejecting connection - target is unhealthy
+Jul 30 09:36:20 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Rejecting connection - target is unhealthy
+Jul 30 09:36:20 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:20] recv error: Connection reset by peer
+Jul 30 09:36:20 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:20] Cleaning up connection 0 (sent: 112308 bytes, received: 697833 bytes)
+Jul 30 09:36:20 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: recv error: Connection reset by peer             
+Jul 30 09:36:20 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Cleaning up connection 0 (sent: 112308 bytes, received: 697833 bytes)  
+Jul 30 09:36:23 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:23] Rejecting connection - target is unhealthy                                      
+Jul 30 09:36:23 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Rejecting connection - target is unhealthy                                                                                                                          
+Jul 30 09:36:25 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:25] Rejecting connection - target is unhealthy
+Jul 30 09:36:25 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: Rejecting connection - target is unhealthy
+Jul 30 09:36:30 iZuf68czxjn1rgyd0bajptZ rdp_forwarder[317391]: [2025-07-30 09:36:30] Rejecting connection - target is unhealthy`
