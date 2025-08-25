@@ -109,10 +109,7 @@ typedef struct {
 
 stats_t stats;
 
-// 健康检查状态
-int target_healthy = 1;
-time_t last_health_check = 0;
-time_t last_health_change = 0;
+// 健康检查已移除 - 强制连接目标服务器
 
 // 函数声明
 void log_message(int priority, const char* format, ...);
@@ -127,8 +124,7 @@ int load_config(const char* config_file);
 void init_stats(void);
 void print_stats(void);
 void update_stats(void);
-int check_target_health(void);
-void health_check_thread(void);
+// 健康检查函数已移除
 int create_hybrid_connection(connection_pair_t* conn, const char* target_ip, int port);
 int forward_data_hybrid(connection_pair_t* conn, int from_client);
 void handle_client_disconnect(connection_pair_t* conn);
@@ -337,63 +333,7 @@ void print_stats(void) {
     stats.last_stats_time = now;
 }
 
-// 检查目标主机健康状态
-int check_target_health(void) {
-    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) {
-        return 0;
-    }
-
-    // 设置连接超时
-    struct timeval timeout;
-    timeout.tv_sec = 5;  // 5秒超时
-    timeout.tv_usec = 0;
-    setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
-    setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
-
-    struct sockaddr_in addr;
-    memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(config.target_port);
-
-    if (inet_pton(AF_INET, config.target_ip, &addr.sin_addr) <= 0) {
-        close(sockfd);
-        return 0;
-    }
-
-    int result = connect(sockfd, (struct sockaddr*)&addr, sizeof(addr));
-    close(sockfd);
-
-    return (result == 0) ? 1 : 0;
-}
-
-// 执行健康检查
-void health_check_thread(void) {
-    time_t now = time(NULL);
-
-    // 动态调整检查间隔：如果目标不健康，更频繁地检查
-    int check_interval = target_healthy ? 10 : 3; // 健康时10秒，不健康时3秒
-
-    if (now - last_health_check < check_interval) {
-        return;
-    }
-
-    last_health_check = now;
-    int new_health_status = check_target_health();
-
-    if (new_health_status != target_healthy) {
-        if (new_health_status) {
-            log_message(LOG_INFO, "Target %s:%d is now healthy (recovered after %ld seconds)",
-                       config.target_ip, config.target_port,
-                       target_healthy ? 0 : (now - last_health_change));
-        } else {
-            log_message(LOG_WARNING, "Target %s:%d is unhealthy (health check failed)",
-                       config.target_ip, config.target_port);
-        }
-        target_healthy = new_health_status;
-        last_health_change = now;
-    }
-}
+// 健康检查函数已移除 - 强制连接目标服务器
 
 // 获取连接状态名称
 const char* get_connection_state_name(connection_state_t state) {
@@ -563,6 +503,8 @@ void cleanup_connection(int index) {
 
     conn->is_active = 0;
     conn->use_hybrid_transport = 0;
+
+    // 健康状态重置逻辑已移除 - 不再进行健康检查
 
     // 移动后面的连接向前填补空隙
     for (int i = index; i < connection_count - 1; i++) {
@@ -1007,8 +949,7 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        // 执行健康检查
-        health_check_thread();
+        // 健康检查已移除 - 强制连接目标服务器
 
         // 处理断开连接的快速重连
         if (config.enable_fast_reconnect) {
@@ -1085,15 +1026,8 @@ int main(int argc, char *argv[]) {
                                config.target_ip, config.target_port);
 
                 } else if (connection_count < config.max_clients) {
-                // 检查目标健康状态
-                if (!target_healthy) {
-                    time_t unhealthy_duration = time(NULL) - last_health_change;
-                    log_message(LOG_WARNING, "Rejecting connection - target %s:%d is unhealthy (down for %ld seconds, next check in %ld seconds)",
-                               config.target_ip, config.target_port, unhealthy_duration,
-                               3 - (time(NULL) - last_health_check));
-                    close(client_fd);
-                    continue;
-                }
+                // 健康检查已移除 - 强制连接目标服务器
+                log_message(LOG_INFO, "Accepting new connection - will attempt to connect to target");
 
                 // 设置客户端socket为非阻塞模式
                 if (set_nonblocking(client_fd) < 0) {
