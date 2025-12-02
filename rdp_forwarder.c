@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <syslog.h>
 #include <stdarg.h>
+#include <netinet/tcp.h>
 #include "hybrid_transport.h"
 
 #define DEFAULT_RDP_PORT 3389
@@ -135,6 +136,9 @@ int is_client_socket_alive(int fd);
 void set_connection_state(connection_pair_t* conn, connection_state_t new_state, const char* reason);
 const char* get_connection_state_name(connection_state_t state);
 void log_connection_state_change(connection_pair_t* conn, int conn_index);
+
+// TCP socket 参数调优（在客户端和目标端两侧保持一致行为，提升 RDP 兼容性）
+static void configure_tcp_socket(int fd);
 
 // 信号处理函数
 void signal_handler(int sig) {
@@ -467,6 +471,39 @@ int set_nonblocking(int fd) {
         return -1;
     }
     return fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+}
+
+// 为客户端和目标端 TCP socket 设置通用参数，尽量减少因为 TCP 行为差异导致的 RDP 断连
+static void configure_tcp_socket(int fd) {
+    if (fd <= 0) {
+        return;
+    }
+
+    int opt = 1;
+
+    // RDP 对交互延迟比较敏感，禁用 Nagle 算法可以降低小包延迟
+    if (setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(opt)) < 0) {
+        log_message(LOG_WARNING, "Failed to set TCP_NODELAY on socket %d: %s", fd, strerror(errno));
+    }
+
+    // 开启 TCP KeepAlive，帮助穿越某些对长连接不友好的中间设备
+    if (setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &opt, sizeof(opt)) < 0) {
+        log_message(LOG_WARNING, "Failed to set SO_KEEPALIVE on socket %d: %s", fd, strerror(errno));
+    }
+
+    // 如配置了 socket_timeout，则为收发都设置超时，避免在异常情况下无限阻塞
+    if (config.socket_timeout > 0) {
+        struct timeval tv;
+        tv.tv_sec = config.socket_timeout;
+        tv.tv_usec = 0;
+
+        if (setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
+            log_message(LOG_WARNING, "Failed to set SO_RCVTIMEO on socket %d: %s", fd, strerror(errno));
+        }
+        if (setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv)) < 0) {
+            log_message(LOG_WARNING, "Failed to set SO_SNDTIMEO on socket %d: %s", fd, strerror(errno));
+        }
+    }
 }
 
 // 清理连接
@@ -861,20 +898,21 @@ int try_reconnect_target(connection_pair_t* conn) {
     }
 
     // 如果混合传输失败，回退到传统TCP
-    if (!connection_success) {
-        int target_fd = connect_to_target(config.target_ip, config.target_port);
-        if (target_fd >= 0) {
-            // 设置目标socket为非阻塞模式
-            if (set_nonblocking(target_fd) < 0) {
-                log_message(LOG_WARNING, "Failed to set target socket non-blocking");
-            }
+	    if (!connection_success) {
+	        int target_fd = connect_to_target(config.target_ip, config.target_port);
+	        if (target_fd >= 0) {
+	            // 设置目标socket为非阻塞模式并调整TCP参数
+	            if (set_nonblocking(target_fd) < 0) {
+	                log_message(LOG_WARNING, "Failed to set target socket non-blocking");
+	            }
+	            configure_tcp_socket(target_fd);
 
-            conn->target_fd = target_fd;
-            conn->target_ready = 1;
-            connection_success = 1;
-            log_message(LOG_INFO, "Target reconnected using TCP");
-        }
-    }
+	            conn->target_fd = target_fd;
+	            conn->target_ready = 1;
+	            connection_success = 1;
+	            log_message(LOG_INFO, "Target reconnected using TCP");
+	        }
+	    }
 
     if (connection_success) {
         log_message(LOG_INFO, "Target reconnection successful");
@@ -1010,10 +1048,11 @@ int main(int argc, char *argv[]) {
                     // 重用现有连接
                     log_message(LOG_INFO, "Reusing connection %d for fast reconnect", reused_connection);
 
-                    // 设置客户端socket为非阻塞模式
-                    if (set_nonblocking(client_fd) < 0) {
-                        log_message(LOG_WARNING, "Failed to set client socket non-blocking");
-                    }
+	            // 设置客户端socket为非阻塞模式并调整TCP参数
+	            if (set_nonblocking(client_fd) < 0) {
+	                log_message(LOG_WARNING, "Failed to set client socket non-blocking");
+	            }
+	            configure_tcp_socket(client_fd);
 
                     connections[reused_connection].client_fd = client_fd;
                     reset_connection_for_reuse(&connections[reused_connection]);
@@ -1029,10 +1068,11 @@ int main(int argc, char *argv[]) {
                 // 健康检查已移除 - 强制连接目标服务器
                 log_message(LOG_INFO, "Accepting new connection - will attempt to connect to target");
 
-                // 设置客户端socket为非阻塞模式
-                if (set_nonblocking(client_fd) < 0) {
-                    log_message(LOG_WARNING, "Failed to set client socket non-blocking");
-                }
+	                // 设置客户端socket为非阻塞模式并调整TCP参数
+	                if (set_nonblocking(client_fd) < 0) {
+	                    log_message(LOG_WARNING, "Failed to set client socket non-blocking");
+	                }
+	                configure_tcp_socket(client_fd);
 
                 // 初始化连接结构
                 memset(&connections[connection_count], 0, sizeof(connection_pair_t));
@@ -1069,19 +1109,20 @@ int main(int argc, char *argv[]) {
                 }
 
                 // 如果混合传输失败，回退到传统TCP
-                if (!connection_success) {
-                    int target_fd = connect_to_target(config.target_ip, config.target_port);
-                    if (target_fd >= 0) {
-                        // 设置目标socket为非阻塞模式
-                        if (set_nonblocking(target_fd) < 0) {
-                            log_message(LOG_WARNING, "Failed to set target socket non-blocking");
-                        }
+	                if (!connection_success) {
+	                    int target_fd = connect_to_target(config.target_ip, config.target_port);
+	                    if (target_fd >= 0) {
+	                        // 设置目标socket为非阻塞模式并调整TCP参数
+	                        if (set_nonblocking(target_fd) < 0) {
+	                            log_message(LOG_WARNING, "Failed to set target socket non-blocking");
+	                        }
+	                        configure_tcp_socket(target_fd);
 
-                        connections[connection_count].target_fd = target_fd;
-                        connection_success = 1;
-                        log_message(LOG_INFO, "Using traditional TCP transport");
-                    }
-                }
+	                        connections[connection_count].target_fd = target_fd;
+	                        connection_success = 1;
+	                        log_message(LOG_INFO, "Using traditional TCP transport");
+	                    }
+	                }
 
                 if (connection_success) {
                     char client_ip[INET_ADDRSTRLEN];
